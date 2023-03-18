@@ -268,7 +268,7 @@ class TestLoginView(TestCase):
             ).exists()
         )
         self.assertFalse(form.is_valid())
-        self.assertIn(form.errors["password"], ["このフィールドは必須です。"])
+        self.assertEqual(form.errors["password"], ["このフィールドは必須です。"])
         self.assertNotIn(SESSION_KEY, self.client.session)
 
 
@@ -294,8 +294,10 @@ class TestLogoutView(TestCase):
             target_status_code=200,
         )
         self.assertFalse(
-            username=self.user["username"],
-            email=self.user["password"],
+            User.objects.filter(
+                username=self.user["username"],
+                email=self.user["password"],
+            ).exists()
         )
         self.assertNotIn(SESSION_KEY, self.client.session)
 

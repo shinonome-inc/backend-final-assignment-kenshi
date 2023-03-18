@@ -10,6 +10,9 @@ class SignUpForm(UserCreationForm):
         fields = ("username", "email")
 
 
+# aaaaa
+
+
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

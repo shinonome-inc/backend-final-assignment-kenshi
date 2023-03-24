@@ -12,7 +12,7 @@ User = get_user_model
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = "accounts/signup.html"
-    success_url = reverse_lazy("settings.LOGIN_REDIRECT_URL")
+    success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)
 
     def form_valid(self, form):
         response = super().form_valid(form)

@@ -44,11 +44,7 @@ class TestSignUpView(TestCase):
         form = response.context["form"]
 
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(
-            User.objects.filter(
-                username=invalid_data["username"], email=invalid_data["email"]
-            ).exists()
-        )
+        self.assertFalse(User.objects.filter(username=invalid_data["username"], email=invalid_data["email"]).exists())
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["username"], ["このフィールドは必須です。"])
         self.assertEqual(form.errors["email"], ["このフィールドは必須です。"])
@@ -66,9 +62,7 @@ class TestSignUpView(TestCase):
         form = response.context["form"]
 
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(
-            User.objects.filter(username=invalid_data["username"]).exists()
-        )
+        self.assertFalse(User.objects.filter(username=invalid_data["username"]).exists())
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["username"], ["このフィールドは必須です。"])
 
@@ -98,9 +92,7 @@ class TestSignUpView(TestCase):
         form = response.context["form"]
 
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(
-            User.objects.filter(password=invalid_data["password1"]).exists()
-        )
+        self.assertFalse(User.objects.filter(password=invalid_data["password1"]).exists())
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["password1"], ["このフィールドは必須です。"])
         self.assertEqual(form.errors["password2"], ["このフィールドは必須です。"])
@@ -179,9 +171,7 @@ class TestSignUpView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(form.is_valid())
-        self.assertEqual(
-            form.errors["password2"], ["このパスワードは一般的すぎます。", "このパスワードは数字しか使われていません。"]
-        )
+        self.assertEqual(form.errors["password2"], ["このパスワードは一般的すぎます。", "このパスワードは数字しか使われていません。"])
 
     def test_failure_post_with_mismatch_password(self):
         only_numbers_password_data = {
@@ -259,8 +249,27 @@ class TestLoginView(TestCase):
 
 
 class TestLogoutView(TestCase):
+    def setUp(self):
+        self.user = {
+            "username": "testuser",
+            "password": "testpassword",
+        }
+
+        self.client.login(
+            username="testuser",
+            password="testpassword",
+        )
+
     def test_success_get(self):
-        pass
+        response = self.client.get(reverse("accounts:logout"))
+
+        self.assertRedirects(
+            response,
+            reverse(settings.LOGOUT_REDIRECT_URL),
+            status_code=302,
+            target_status_code=200,
+        )
+        self.assertNotIn(SESSION_KEY, self.client.session)
 
 
 class TestUserProfileView(TestCase):

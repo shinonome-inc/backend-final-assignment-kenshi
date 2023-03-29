@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 
-from .forms import LoginForm, SignUpForm
+from .forms import SignUpForm
 
 User = get_user_model()
 

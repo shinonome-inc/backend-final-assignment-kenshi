@@ -260,8 +260,8 @@ class TestLogoutView(TestCase):
             password="testpassword",
         )
 
-    def test_success_get(self):
-        response = self.client.get(reverse("accounts:logout"))
+    def test_success_post(self):
+        response = self.client.post(reverse("accounts:logout"))
 
         self.assertRedirects(
             response,

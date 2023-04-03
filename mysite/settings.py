@@ -9,10 +9,16 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from pathlib import Path
 
 AUTH_USER_MODEL = "accounts.User"
 
-from pathlib import Path
+LOGIN_REDIRECT_URL = "tweets:home"
+
+LOGIN_URL = "accounts:login"
+
+LOGOUT_REDIRECT_URL = "welcome:index"
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -110,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ja"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
